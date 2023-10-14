@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>管理员端</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="resources/AdminLTE-master/plugins/fontawesome-free/css/all.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Tempusdominus Bootstrap 4 -->
+  <link rel="stylesheet" href="resources/AdminLTE-master/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <!-- iCheck -->
+  <link rel="stylesheet" href="resources/AdminLTE-master/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- JQVMap -->
+  <link rel="stylesheet" href="resources/AdminLTE-master/plugins/jqvmap/jqvmap.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="resources/AdminLTE-master/dist/css/adminlte.min.css">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="resources/AdminLTE-master/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <!-- Daterange picker -->
+  <link rel="stylesheet" href="resources/AdminLTE-master/plugins/daterangepicker/daterangepicker.css">
+  <!-- summernote -->
+  <link rel="stylesheet" href="resources/AdminLTE-master/plugins/summernote/summernote-bs4.min.css">
+  <!--vue&iview-->
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/view-ui-plus/dist/styles/viewuiplus.css">
+
+  <script type="text/javascript" src="https://unpkg.com/vue@next"></script>
+  <script type="text/javascript" src="https://unpkg.com/view-ui-plus"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper" id="chooseCourseForStudent">
+
+    <!-- Preloader -->
+    <div class="preloader flex-column justify-content-center align-items-center">
+      <img class="animation__shake" src="resources/AdminLTE-master/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
+    </div>
+
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+      <!-- Left navbar links -->
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+      </ul>
+
+      <!-- Right navbar links -->
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" data-widget="fullscreen" href="javascript:void(0)" role="button">
+            <i class="fas fa-expand-arrows-alt"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" @click="safelyExit" role="button">
+            <i class="ivu-icon ivu-icon-md-arrow-back"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+      <!-- Brand Logo -->
+      <a href="javascript:void(0)" class="brand-link">
+        <img src="resources/AdminLTE-master/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+          style="opacity: .8">
+        <span class="brand-text font-weight-light">教务选课系统</span>
+      </a>
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+          <div class="image">
+            <img src="resources/AdminLTE-master/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+          </div>
+          <div class="info">
+            <a href="javascript:void(0)" class="d-block" ref="name"></a>
+          </div>
+        </div>
+
+
+
+         <!-- Sidebar Menu -->
+         <nav class="mt-2">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <li class="nav-item">
+              <a href="/jumpToManagerInfo" class="nav-link">
+                <i class="nav-icon fas fa-th"></i>
+                <p>个人信息</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="javascript:void(0)" class="nav-link">
+                <i class="nav-icon fas fa-edit"></i>
+                <p>学生选课管理</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/jumpToCourseManagement" class="nav-link">
+                <i class="nav-icon fas fa-table"></i>
+                <p>课程管理</p>
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+
+
+      </div>
+    </aside>
+
+
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0">你好！欢迎使用该系统！</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content-header -->
+
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+          <div class="card card-default">
+            <div class="col-12">
+              <div class="card-header">
+                <h3 class="card-title">选项</h3>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <i-input search
+                           enter-button
+                           placeholder="按学号查询学生的选课"
+                           type="number"
+                           v-model:model-value="courseSearch.student_id_for_course_search"
+                           @on-search="searchCourseSelected"/>
+                </div>
+                <div class="col-md-6">
+                  <i-input
+                          search
+                          enter-button
+                          placeholder="按课程号查询课程的选课情况"
+                          type="number"
+                          v-model:model-value="courseSearch.course_id_for_course_search"
+                          @on-search="searchCourseSelected" />
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <i-form class="ivu-form ivu-form-label-left" label-position="left" autocomplete="off" >
+                  <form-item label="学生学号">
+                    <i-input placeholder="输入学生学号…" type="number" v-model="courseSelected.student_id" style="width:700px"/>
+                  </form-item>
+                  <form-item label="课程编号">
+                    <i-input placeholder="输入课程编号…" type="number" v-model="courseSelected.course_id" style="width:700px"/>
+                  </form-item>
+                  <form-item align="center">
+                    <Button-Group>
+                      <i-button @click="reset">重置</i-button>
+                      <i-button type="primary" @click="selectCourseForStudent">添加选课</i-button>
+                    </Button-Group>
+                  </form-item>
+              </i-form>
+            </div>
+          </div>
+
+          <div class="card card-default">
+            <div class="col-12">
+              <div class="card-header">
+                <h3 class="card-title">查询结果</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-6"></div>
+                    <div class="col-sm-12 col-md-6"></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div id="tableForStudent">
+                        <i-table border :columns="columns" v-model:data="userdata" no-filtered-data-text="暂无记录">
+                          <template #name="{ row }">
+                            <strong>{{ row.name }}</strong>
+                          </template>
+                          <template #action="{ row, index }">
+
+                            <i-button type="warning" size="small" @click="removeFromChosen(index)">删除记录</i-button>&nbsp
+
+                          </template>
+
+                        </i-table><br>
+                        <Page :total="total" v-model:model-value="pageNum" :page-size="pagesize" show-elevator show-total @on-change="changepage" />
+                      </div>
+                    </div>
+                  </div><br>
+                </div>
+              </div>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+    <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+    All rights reserved.
+    <div class="float-right d-none d-sm-inline-block">
+      <b>Version</b> 3.2.0
+    </div>
+  </footer>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+  </div>
+  <!-- ./wrapper -->
+
+  <!-- jQuery -->
+  <script src="resources/AdminLTE-master/plugins/jquery/jquery.min.js"></script>
+  <!-- jQuery UI 1.11.4 -->
+  <script src="resources/AdminLTE-master/plugins/jquery-ui/jquery-ui.min.js"></script>
+  <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+  <script>
+    $.widget.bridge('uibutton', $.ui.button)
+  </script>
+  <!-- Bootstrap 4 -->
+  <script src="resources/AdminLTE-master/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- ChartJS -->
+  <script src="resources/AdminLTE-master/plugins/chart.js/Chart.min.js"></script>
+  <!-- Sparkline -->
+  <script src="resources/AdminLTE-master/plugins/sparklines/sparkline.js"></script>
+  <!-- JQVMap -->
+  <script src="resources/AdminLTE-master/plugins/jqvmap/jquery.vmap.min.js"></script>
+  <script src="resources/AdminLTE-master/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+  <!-- jQuery Knob Chart -->
+  <script src="resources/AdminLTE-master/plugins/jquery-knob/jquery.knob.min.js"></script>
+  <!-- daterangepicker -->
+  <script src="resources/AdminLTE-master/plugins/moment/moment.min.js"></script>
+  <script src="resources/AdminLTE-master/plugins/daterangepicker/daterangepicker.js"></script>
+  <!-- Tempusdominus Bootstrap 4 -->
+  <script src="resources/AdminLTE-master/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+  <!-- Summernote -->
+  <script src="resources/AdminLTE-master/plugins/summernote/summernote-bs4.min.js"></script>
+  <!-- overlayScrollbars -->
+  <script src="resources/AdminLTE-master/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="resources/AdminLTE-master/dist/js/adminlte.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <!-- <script src="dist/js/demo.js"></script> -->
+  <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+  <!-- <script src="dist/js/pages/dashboard.js"></script> -->
+
+
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          //loading:"true",
+          alldata: [],
+          total: 0,
+          pagesize: 5,
+          pageNum:1,
+          userdata: [],
+          index: 0,
+          columns: [
+            {
+              title: '课程编码',
+              key: 'course_id'
+            },
+            {
+              title: '课程名',
+              key: 'course_name'
+            },
+            {
+              title: '授课教师',
+              key: 'course_teacher'
+            },
+            {
+              title: '学号',
+              key: 'student_id'
+            },
+            {
+              title: '选课学生',
+              key: 'student_name'
+            },
+            {
+              title: '操作',
+              slot: 'action',
+              width: 200,
+              align: 'center'
+            }
+          ],
+          data:[],
+          courseSelected:{
+            course_id:"",
+            student_id:"",
+          },
+          courseSearch:{
+            course_id_for_course_search:"",
+            student_id_for_course_search:"",
+          }
+        }
+      },
+      methods: {
+        getcookie(){
+          console.log(document.cookie)
+          var str = document.cookie.split(";");
+          var manager_name = "";
+          for(var i = 0;i<str.length;i++){
+            var cookiestr = str[i].split("=");
+
+            cookiestr[0] = cookiestr[0].trim();
+            cookiestr[1] = cookiestr[1].trim();
+            if(cookiestr[0]==="manager_name"){
+              manager_name = cookiestr[1];
+              break;
+            }
+          }
+          this.$refs.name.innerText = manager_name;
+        },
+        selectCourseForStudent() {
+          var that = this;
+          this.$Modal.confirm({
+            title: '确认要选择此课程吗？',
+            content: '',
+            onOk: () => {
+              axios.post('/management/select_course', that.courseSelected)
+                      .then(function (response) {
+                        if (response.data === 1) {
+                          that.$Message.success('选课成功！');
+                        }
+                      })
+                      .catch(function (error) {
+                        that.$Message.warning('选课失败！');
+                      });
+            },
+            onCancel: () => {
+              this.$Message.info('操作取消');
+            }
+          })
+        },
+        safelyExit(){
+          this.$Modal.confirm({
+            title: '确认要退出吗？',
+            content:"您的登录信息将被删除。",
+            onOk: () => {
+              axios.get('/safely_exit')
+                      .then(function (response) {
+                        window.location.href="/"
+                      })
+                      .catch(function (error) {
+                      });
+            },
+            onCancel: () => {
+            }
+          });
+        },
+        removeFromChosen(index){
+          var that = this;
+          this.$Modal.confirm({
+            title: '确认要删除该记录吗？',
+            content: '',
+            onOk: () => {
+              axios.get('/management/remove_chosen_course?course_id='
+                      +that.userdata[index].course_id+
+                      "&student_id="+that.userdata[index].student_id)
+                      .then(function (response) {
+                        if(response.data===1){
+                          that.$Message.success('删除成功！');
+                          that.userdata.splice(index, 1);
+                          that.data.splice((that.pageNum-1)*that.pagesize+index,1)
+                          this.total--;
+                        }else{
+                          that.$Message.warning('该记录不存在！');
+                        }
+                      })
+                      .catch(function (error) {
+                        that.$Message.warning('删除失败！');
+                      });
+            },
+            onCancel: () => {
+              this.$Message.info('操作取消');
+            }
+          });
+        },
+        searchCourseSelected(){
+          var that = this;
+          axios.post('/management/course_selected',that.courseSearch)
+                  .then(function (response) {
+                    that.data = response.data;
+                    that.handlechangedata();
+                  })
+                  .catch(function (error) {
+                    console.log(error);
+                  });
+
+        },
+        handlechangedata() {
+          this.alldata = this.data;
+          this.total = this.data.length;
+          if (this.total < this.pagesize) {
+            this.userdata = this.alldata;
+          } else {
+            this.userdata = this.alldata.slice(0, this.pagesize);
+          }
+        },
+        changepage(index) {
+          var startRowIndex = (index - 1) * this.pagesize;
+          var endRowIndex = index * this.pagesize;
+          this.userdata = this.alldata.slice(startRowIndex, endRowIndex);
+        }, 
+        reset(){
+         this.courseSelected.course_id = "";
+         this.courseSelected.student_id = "";
+        },
+      },
+      created() {
+
+      },
+      mounted(){
+        this.getcookie();
+      }
+    });
+
+    app.use(ViewUIPlus);
+    app.mount("#chooseCourseForStudent");
+  </script>
+
+</body>
+
+</html>

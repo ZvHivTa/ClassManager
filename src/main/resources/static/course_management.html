@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>管理员端</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="resources/AdminLTE-master/plugins/fontawesome-free/css/all.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Tempusdominus Bootstrap 4 -->
+  <link rel="stylesheet"
+    href="resources/AdminLTE-master/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <!-- iCheck -->
+  <link rel="stylesheet" href="resources/AdminLTE-master/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- JQVMap -->
+  <link rel="stylesheet" href="resources/AdminLTE-master/plugins/jqvmap/jqvmap.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="resources/AdminLTE-master/dist/css/adminlte.min.css">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="resources/AdminLTE-master/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <!-- Daterange picker -->
+  <link rel="stylesheet" href="resources/AdminLTE-master/plugins/daterangepicker/daterangepicker.css">
+  <!-- summernote -->
+  <link rel="stylesheet" href="resources/AdminLTE-master/plugins/summernote/summernote-bs4.min.css">
+  <!--vue&iview-->
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/view-ui-plus/dist/styles/viewuiplus.css">
+  <script type="text/javascript" src="https://unpkg.com/vue@next"></script>
+  <script type="text/javascript" src="https://unpkg.com/view-ui-plus"></script>
+
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://unpkg.com/browse/async-validator@2.0.0/"></script>
+  <style>
+    .demo-drawer-footer {
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      border-top: 1px solid #e8e8e8;
+      padding: 10px 16px;
+      text-align: right;
+      background: #fff;
+    }
+  </style>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper" id="courseinfo_management">
+
+    <!-- Preloader -->
+    <div class="preloader flex-column justify-content-center align-items-center">
+      <img class="animation__shake" src="resources/AdminLTE-master/dist/img/AdminLTELogo.png" alt="AdminLTELogo"
+        height="60" width="60">
+    </div>
+
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+      <!-- Left navbar links -->
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+      </ul>
+
+      <!-- Right navbar links -->
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" data-widget="fullscreen" href="javascript:void(0)" role="button">
+            <i class="fas fa-expand-arrows-alt"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" @click="safelyExit" role="button">
+            <i class="ivu-icon ivu-icon-md-arrow-back"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+      <!-- Brand Logo -->
+      <a href="javascript:void(0)" class="brand-link">
+        <img src="resources/AdminLTE-master/dist/img/AdminLTELogo.png" alt="AdminLTE Logo"
+          class="brand-image img-circle elevation-3" style="opacity: .8">
+        <span class="brand-text font-weight-light">教务选课系统</span>
+      </a>
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+          <div class="image">
+            <img src="resources/AdminLTE-master/dist/img/user2-160x160.jpg" class="img-circle elevation-2"
+              alt="User Image">
+          </div>
+          <div class="info">
+            <a href="javascript:void(0)" class="d-block" ref="name"></a>
+          </div>
+        </div>
+
+
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <li class="nav-item">
+              <a href="/jumpToManagerInfo" class="nav-link">
+                <i class="nav-icon fas fa-th"></i>
+                <p>个人信息</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/jumpToStudentManagement" class="nav-link">
+                <i class="nav-icon fas fa-edit"></i>
+                <p>学生选课管理</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="javascript:void(0)" class="nav-link">
+                <i class="nav-icon fas fa-table"></i>
+                <p>课程管理</p>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </aside>
+
+
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0">你好！欢迎使用该系统！</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content-header -->
+
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+          <div class="card card-default">
+            <div class="col-12">
+
+
+              <div class="card-header">
+                <h3 class="card-title">查询选项</h3>
+              </div>
+
+
+
+            </div>
+
+            <div class="card-body">
+              <i-form label-position="left" :label-width="100" :model="searchItem">
+                <form-item label="课程编号">
+                  <i-input v-model="searchItem.course_id" placeholder="标准课程编号" type="number"></i-input>
+                </form-item>
+                <form-item label="课程名">
+                  <i-input v-model="searchItem.course_name" placeholder="输入课程关键字以查询"></i-input>
+                </form-item>
+                <form-item label="教师姓名">
+                  <i-input v-model="searchItem.course_teacher" placeholder="输入教师姓名以查询"></i-input>
+                </form-item>
+                <form-item>
+                  <i-button
+                          type="primary"
+                          @click="searchCourse"
+                          style="width: 30%;margin-left: 30%;">查询</i-button>
+                </form-item>
+              </i-form>
+            </div>
+          </div>
+
+          <div class="card card-default">
+            <div class="col-12">
+              <div class="card-header">
+                <h3 class="card-title">查询结果</h3>
+                <div class="col-md-6" style="float:right;">
+
+                  <i-button type="info" icon="ios-add-circle" style="float:right;" @click="showDrawerMethod()">新增课程
+                  </i-button>
+
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-6"></div>
+                    <div class="col-sm-12 col-md-6"></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <!--表格-->
+                      <i-table border :columns="columns" :data="userdata">
+                        <template #name="{ row }">
+                          <strong>{{ row.name }}</strong>
+                        </template>
+                        <template #action="{ row, index }">
+                          <i-button type="success" size="small" @click="showDrawerMethod(index)">修改信息</i-button>&nbsp
+                          <i-button type="warning" size="small" @click="removeCourse(index)">删除课程</i-button>&nbsp
+                        </template>
+
+                      </i-table>
+                      <br>
+                      <Page v-model:model-value="pageNum"
+                            :total="total"
+                            :page-size="pagesize"
+                            show-elevator
+                            show-total
+                            @on-change="changepage" />
+                      <!--修改侧栏-->
+                      <template>
+                        <!-- <Button @click="value = true" type="primary">Open</Button> -->
+                        <Drawer :title="drawerTitle" v-model="showDrawer" width="700" :mask-closable="true"
+                          :styles="styles">
+                          <div class="container-fluid" v-if="showDrawerForUpdate" @load="putdata()">
+                            <div class="card card-primary">
+                              <div class="card-header">
+                                <h3 class="card-title">详细信息</h3>
+                              </div>
+                              <!-- /.card-header -->
+                              <!-- form start -->
+                              <i-form label-position="left" ref="course_detail_data" :rules="formRules01" :model="course_detail_data">
+                                <div class="card-body">
+                                  <div class="row">
+                                    <div class="col-md-6">
+                                      <form-item label="课程编号" prop="course_id">
+                                        <i-input type="number"  v-model="course_detail_data.course_id" readonly></i-input>
+                                      </form-item>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <form-item label="课程名" prop="course_name">
+                                        <i-input v-model="course_detail_data.course_name"></i-input>
+                                      </form-item>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <form-item label="授课教师" prop="course_teacher">
+                                        <i-input v-model="course_detail_data.course_teacher"></i-input>
+                                      </form-item>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <form-item label="课程类型" prop="course_type">
+                                        <i-select v-model="course_detail_data.course_type" placeholder="选择课程类型">
+                                          <i-option v-for="item in course_type_json" :value="item.value" :key="item.value">{{ item.label }}</i-option>
+                                        </i-select>
+                                      </form-item>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <form-item label="上课时间" prop="course_time">
+                                        <i-input v-model="course_detail_data.course_time" placeholder="未指定"></i-input>
+                                      </form-item>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <form-item label="上课地点" prop="course_place">
+                                        <i-input v-model="course_detail_data.course_place" placeholder="未指定"></i-input>
+                                      </form-item>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                      <form-item label="课程容量" prop="course_capacity">
+                                        <i-input v-model="course_detail_data.course_capacity" placeholder="未指定" type="number"></i-input>
+                                      </form-item>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <form-item label="面向年级" prop="course_grade">
+                                        <i-input v-model="course_detail_data.course_grade" placeholder="未指定" type="number"></i-input>
+                                      </form-item>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <form-item label="所属专业" prop="subject_name">
+                                        <i-select v-model="course_detail_data.subject_name" placeholder="选择所属专业">
+                                          <i-option v-for="item in subject_json" :value="item.subject_name" :key="item.subject_id">{{ item.subject_name }}</i-option>
+                                        </i-select>
+                                      </form-item>
+                                    </div>
+                                  </div>
+                                  <div class="card-footer">
+                                    <i-button type="primary" @click="handleSubmitUpdate('course_detail_data')">修改</i-button>
+                                  </div>
+                                </div>
+                              </i-form>
+                            </div>
+                          </div>
+
+                          <div class="container-fluid" v-else>
+                            <div class="card card-primary">
+                              <div class="card-header">
+                                <h3 class="card-title">新增课程</h3>
+                              </div>
+                              <!-- /.card-header -->
+                              <!-- form start -->
+                              <i-form label-position="left" ref="insert_course_data" :rules="formRules" :model="insert_course_data">
+                                <div class="card-body">
+                                  <div class="row">
+                                    <div class="col-md-6">
+                                      <form-item label="课程编号" prop="course_id">
+                                        <i-input type="number"  v-model="insert_course_data.course_id"></i-input>
+                                      </form-item>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <form-item label="课程名" prop="course_name">
+                                        <i-input v-model="insert_course_data.course_name"></i-input>
+                                      </form-item>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <form-item label="授课教师" prop="course_teacher">
+                                        <i-input v-model="insert_course_data.course_teacher"></i-input>
+                                      </form-item>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <form-item label="课程类型" prop="course_type">
+                                        <i-select v-model="insert_course_data.course_type" placeholder="选择课程类型">
+                                          <i-option v-for="item in course_type_json" :value="item.value" :key="item.value">{{ item.label }}</i-option>
+                                        </i-select>
+                                      </form-item>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <form-item label="上课时间" prop="course_time">
+                                        <i-input v-model="insert_course_data.course_time" placeholder="未指定"></i-input>
+                                      </form-item>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <form-item label="上课地点" prop="course_place">
+                                        <i-input v-model="insert_course_data.course_place" placeholder="未指定"></i-input>
+                                      </form-item>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                      <form-item label="课程容量" prop="course_capacity">
+                                        <i-input v-model="insert_course_data.course_capacity" placeholder="未指定" type="number"></i-input>
+                                      </form-item>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <form-item label="面向年级" prop="course_grade">
+                                        <i-input v-model="insert_course_data.course_grade" placeholder="未指定" type="number"></i-input>
+                                      </form-item>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <form-item label="所属专业" prop="subject_id">
+                                        <i-select v-model="insert_course_data.subject_id" placeholder="选择所属专业">
+                                          <i-option v-for="item in subject_json" :value="item.subject_id" :key="item.subject_name">{{ item.subject_name }}</i-option>
+                                        </i-select>
+                                      </form-item>
+                                    </div>
+                                  </div>
+                                  <div class="card-footer">
+                                    <i-button type="primary" @click="handleSubmitInsert('insert_course_data')">添加</i-button>
+                                  </div>
+                                </div>
+                              </i-form>
+                            </div>
+                          </div>
+                        </Drawer>
+                      </template>
+                    </div>
+                  </div>
+                </div><br>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <footer class="main-footer">
+      <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+      All rights reserved.
+      <div class="float-right d-none d-sm-inline-block">
+        <b>Version</b> 3.2.0
+      </div>
+    </footer>
+</div>
+
+
+
+    <!-- sidebar -->
+
+    <!-- ./wrapper -->
+
+    <!-- jQuery -->
+    <script src="resources/AdminLTE-master/plugins/jquery/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="resources/AdminLTE-master/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+      $.widget.bridge('uibutton', $.ui.button)
+    </script>
+    <!-- Bootstrap 4 -->
+    <script src="resources/AdminLTE-master/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- ChartJS -->
+    <script src="resources/AdminLTE-master/plugins/chart.js/Chart.min.js"></script>
+    <!-- Sparkline -->
+    <script src="resources/AdminLTE-master/plugins/sparklines/sparkline.js"></script>
+    <!-- JQVMap -->
+    <script src="resources/AdminLTE-master/plugins/jqvmap/jquery.vmap.min.js"></script>
+    <script src="resources/AdminLTE-master/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+    <!-- jQuery Knob Chart -->
+    <script src="resources/AdminLTE-master/plugins/jquery-knob/jquery.knob.min.js"></script>
+    <!-- daterangepicker -->
+    <script src="resources/AdminLTE-master/plugins/moment/moment.min.js"></script>
+    <script src="resources/AdminLTE-master/plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script
+      src="resources/AdminLTE-master/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- Summernote -->
+    <script src="resources/AdminLTE-master/plugins/summernote/summernote-bs4.min.js"></script>
+    <!-- overlayScrollbars -->
+    <script src="resources/AdminLTE-master/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="resources/AdminLTE-master/dist/js/adminlte.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <!-- <script src="dist/js/demo.js"></script> -->
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <!-- <script src="dist/js/pages/dashboard.js"></script> -->
+
+
+    <script>
+
+      const app = Vue.createApp({
+        data() {
+          /*
+             表单验证
+           */
+          const validateCourse_grade=(rule, value, callback)=>{
+              if(value>4||value<1){
+                callback(new Error('不合法的年级数据！'));
+              }else if(typeof value==='undefined'){
+                callback(new Error('请填写面向年级'));
+              }else{
+                callback();
+              }
+          };
+          const validateCourse_capacity = (rule, value, callback) => {
+            if(value<1){
+              callback(new Error('不合法的课容数据！'));
+            }else{
+              callback();
+            }
+          };
+          const validateCourse_type = (rule, value, callback) => {
+            if(value===""||typeof value==="undefined"||value==null){
+              callback(new Error('请选择课程类型！'));
+            }else{
+              callback();
+            }
+          };
+          const validateSubject_id = (rule, value, callback) => {
+            window.alert(value);
+            if(value===""||typeof value==="undefined"||value==null){
+              callback(new Error('请选择面向专业！！'));
+            }else{
+              callback();
+            }
+          }
+          return {
+            loading: false,
+            /*侧栏的一些初始属性
+            showDrawer:是否处于展示状态
+            style:样式
+            course_detail_data:用于装配特定列的课程详细信息
+            */
+
+            showDrawer: false,
+            showDrawerForUpdate: false,
+            drawerTitle: "",
+            styles: {
+              height: 'calc(100% - 0px)',
+              overflow: 'auto',
+              paddingBottom: '0px',
+              position: 'static'
+            },
+            course_type_json:[
+              {
+                label: '通识必修课',
+                value: '1'
+              },
+              {
+                label: '通识选修课',
+                value: '2'
+              },
+              {
+                label: '专业必修课',
+                value: '3'
+              },
+              {
+                label: '专业选修课',
+                value: '4'
+              },
+            ],
+            subject_json:[],
+            course_detail_data: {
+              course_id: '',
+              course_name: '',
+              course_teacher: '',
+              course_type: '',
+              course_time: '',
+              course_grade:'',
+              course_place: '',
+              course_capacity: '',
+              subject_id: '',
+              subject_name:'',
+              index:''
+            },
+            insert_course_data: {
+              course_id: '',
+              course_name: '',
+              course_teacher: '',
+              course_type: '',
+              course_time: '',
+              course_place: '',
+              course_capacity: '',
+              subject_id: '',
+            },
+            searchItem:{
+              course_id:"",
+              course_name:"",
+              course_teacher:""
+            },
+            formRules:{
+              course_id: [
+                { required: true, message: '课程编号不能为空', trigger: 'blur' }
+              ],
+              course_name: [
+                { required: true, message: '课程名不能为空', trigger: 'blur' }
+              ],
+              course_teacher: [
+                { required: true, message: '授课教师不能为空', trigger: 'blur' }
+              ],
+              course_type: [
+                { validator: validateCourse_type, trigger: 'blur' }
+              ],
+              subject_id: [
+                {validator: validateSubject_id, trigger: 'blur' }
+              ],
+              course_grade: [
+                { validator: validateCourse_grade, trigger: 'blur' }
+              ],
+              course_capacity: [
+                { validator: validateCourse_capacity, trigger: 'blur' }
+              ]
+            },
+            formRules01:{
+              course_name: [
+                { required: true, message: '课程名不能为空', trigger: 'blur' }
+              ],
+              course_teacher: [
+                { required: true, message: '授课教师不能为空', trigger: 'blur' }
+              ],
+              course_type: [
+                { validator: validateCourse_type, trigger: 'blur' }
+              ],
+              subject_id: [
+                {validator: validateSubject_id, trigger: 'blur' }
+              ],
+              course_grade: [
+                { validator: validateCourse_grade, trigger: 'blur' }
+              ],
+              course_capacity: [
+                { validator: validateCourse_capacity, trigger: 'blur' }
+              ]
+            },
+
+            /*
+            alldata:中间变量，处理用
+            total:数据总数
+            pagesize:分页大小
+            userdata:分好页要展示在前端的部分数据
+            index:列索引
+            columns:指定的列形式，表头格式
+            data:从后端获取的全部数据
+            */
+            pageNum:1,
+            data:[],
+            alldata: [],
+            total: 0,
+            pagesize: 5,
+            userdata: [],
+            index: 0,
+            columns: [
+              {
+                title: '课程编码',
+                key: 'course_id'
+              },
+              {
+                title: '课程名',
+                key: 'course_name'
+              },
+              {
+                title: '授课教师',
+                key: 'course_teacher'
+              },
+              {
+                title: '课程类型',
+                key: 'course_type_name'
+              },
+              {
+                title: '上课时间',
+                key: 'course_time'
+              },
+              {
+                title: '上课地点',
+                key: 'course_place'
+              },
+              {
+                title: '课程容量',
+                key: 'course_capacity'
+              },
+              {
+                title: '所属专业',
+                key: 'subject_name'
+              },
+              {
+                title: '面向年级',
+                key: 'course_grade'
+              },
+              {
+                title: '操作',
+                slot: 'action',
+                width: 200,
+                align: 'center'
+              }
+            ],
+
+          }
+        },
+
+        methods: {
+          async searchCourse() {
+            var that = this;
+            await axios.post('/management/search_course', this.searchItem)
+                    .then((response) => {
+                      this.data = response.data;
+                      for(var i = 0; i<that.data.length;i++) {
+                        if (that.data[i].course_type === '1') {
+                          that.data[i].course_type_name = "通识必修课";
+                        } else if (that.data[i].course_type === '2') {
+                          that.data[i].course_type_name = "通识选修课";
+                        } else if (that.data[i].course_type === '3') {
+                          that.data[i].course_type_name = "专业必修课";
+                        } else if(that.data[i].course_type === '4'){
+                          that.data[i].course_type_name = "专业选修课";
+                        }
+                      }
+                    })
+                    .catch(function (error) {
+                      console.log(error);
+                    });
+
+            this.searchSubjectName();
+            this.handlechangedata();
+
+          },
+          handleSubmitInsert(name){
+            this.$refs[name].validate((valid) => {
+              if (valid) {
+                var that = this;
+                this.$Modal.confirm({
+                  title: '确认要添加吗？',
+                  content:"",
+                  onOk: () => {
+                    axios.post('/management/insert_course',
+                            that.insert_course_data)
+                            .then(function (response) {
+                              if(response.data===1){
+                                that.$Message.success('添加成功！');
+                              }else{
+                                that.$Message.warning('更新失败！');
+                              }
+                            })
+                            .catch(function (error) {
+                              that.$Message.warning('更新失败！');
+                            });
+                  },
+                  onCancel: () => {
+                    this.$Message.info('操作取消');
+                  }
+                });
+              }else {
+                this.$Message.error('数据不合法！');
+              }
+            })
+          },
+          //向后端发送更新的数据
+          handleSubmitUpdate (name) {
+            this.$refs[name].validate((valid) => {
+              if (valid) {
+                var that = this;
+                this.$Modal.confirm({
+                  title: '确认要修改吗？',
+                  content:"",
+                  onOk: () => {
+                    axios.post('/management/update_course',
+                            that.course_detail_data)
+                            .then(function (response) {
+                              if(response.data===1){
+                                that.$Message.success('更新成功！');
+                                var index = (that.pageNum-1)*that.pagesize+that.course_detail_data.index;
+                                that.data[index].course_name = that.course_detail_data.course_name;
+                                that.data[index].course_teacher = that.course_detail_data.course_teacher;
+                                that.data[index].course_type =  that.course_detail_data.course_type;
+                                that.data[index].course_place = that.course_detail_data.course_place;
+                                that.data[index].subject_name =  that.course_detail_data.subject_name;
+                                that.data[index].course_time =  that.course_detail_data.course_time;
+                                that.data[index].course_capacity=  that.course_detail_data.course_capacity;
+                              }else{
+                                that.$Message.warning('该记录不存在！');
+                              }
+                            })
+                            .catch(function (error) {
+                              that.$Message.warning('更新失败！');
+                            });
+                  },
+                  onCancel: () => {
+                    this.$Message.info('操作取消');
+                  }
+                });
+
+              } else {
+                this.$Message.error('提交内容不合法!');
+              }
+            })
+          },
+          safelyExit(){
+            this.$Modal.confirm({
+              title: '确认要退出吗？',
+              content:"您的登录信息将被删除。",
+              onOk: () => {
+                axios.get('/safely_exit')
+                        .then(function (response) {
+                          window.location.href="/"
+                        })
+                        .catch(function (error) {
+                        });
+              },
+              onCancel: () => {
+              }
+            });
+          },
+          removeCourse(index) {
+            var that = this;
+            this.$Modal.confirm({
+              title: '确认要删除该记录吗？',
+              content: '注意：删除课程会将学生的选课记录也一并删除！',
+              onOk: () => {
+                axios.get('/management/remove_course?course_id='
+                        +that.userdata[index].course_id)
+                        .then(function (response) {
+                          if(response.data===1){
+                            that.$Message.success('删除成功！');
+                            that.userdata.splice(index, 1);
+                            that.data.splice((that.pageNum-1)*that.pagesize+index,1)
+
+                            this.total--;
+                          }else{
+                            that.$Message.warning('该记录不存在！');
+                          }
+                        })
+                        .catch(function (error) {
+                          that.$Message.warning('删除失败！');
+                        });
+              },
+              onCancel: () => {
+                this.$Message.info('操作取消');
+              }
+            });
+          },
+          //通过侧边栏获得指定的课程信息
+          showDrawerMethod(indexInThatPage) {
+            //index是数字类型，则为更新课程操作；为undefined类型则为插入课程操作
+            if (typeof indexInThatPage != "undefined") {
+              this.showDrawerForUpdate = true;
+              this.showDrawer = true;
+              this.drawerTitle = "修改课程信息";
+
+              var index = (this.pageNum-1)*this.pagesize+indexInThatPage;
+              this.course_detail_data.course_id =  this.data[index].course_id;
+              this.course_detail_data.course_name =  this.data[index].course_name;
+              this.course_detail_data.course_teacher =  this.data[index].course_teacher;
+              this.course_detail_data.course_type =  this.data[index].course_type;
+              this.course_detail_data.course_place =  this.data[index].course_place;
+              this.course_detail_data.subject_id =  this.data[index].subject_id;
+              this.course_detail_data.subject_name =  this.data[index].subject_name;
+              this.course_detail_data.course_time =  this.data[index].course_time;
+              this.course_detail_data.course_grade =  this.data[index].course_grade;
+              this.course_detail_data.course_capacity =  this.data[index].course_capacity;
+              this.course_detail_data.index = index;
+
+            }else{
+              this.showDrawerForUpdate = false;
+              this.showDrawer = true;
+              this.drawerTitle = "新增课程信息";
+            }
+          },
+          //给开课单位对应的id寻找name
+          searchSubjectName() {
+            total = this.data.length;
+            for(var i=0;i<total;i++){
+              subject_id = this.data[i].subject_id;
+              this.data[i].subject_name = this.subject_json[subject_id].subject_name;
+            }
+          },
+
+          /*分页相关的方法
+          handlechangedata:截取数据
+          changepage:换页
+          */
+          handlechangedata() {
+            this.alldata = this.data;
+            this.total = this.data.length;
+            if (this.total < this.pagesize) {
+              this.userdata = this.alldata;
+            } else {
+              this.userdata = this.alldata.slice(0, this.pagesize);
+            }
+          },
+          changepage(index) {
+            var startRowIndex = (index - 1) * this.pagesize;
+            var endRowIndex = index * this.pagesize;
+            this.userdata = this.alldata.slice(startRowIndex, endRowIndex);
+          },
+
+          getcookie(){
+            var str = document.cookie.split(";");
+            var manager_name = "";
+            for(var i = 0;i<str.length;i++){
+              var cookiestr = str[i].split("=");
+              cookiestr[0] = cookiestr[0].trim();
+              cookiestr[1] = cookiestr[1].trim();
+              if(cookiestr[0]==="manager_name"){
+                manager_name = cookiestr[1];
+                break;
+              }
+            }
+            this.$refs.name.innerText = manager_name;
+          },
+        },
+        created() {
+
+        },
+        mounted(){
+          var that = this;
+          axios.post('/management/load_subject')
+                  .then(function (response) {
+                    that.subject_json = response.data;
+                  })
+                  .catch(function (error) {
+                    console.log(error);
+                  });
+          this.getcookie();
+
+        }
+      });
+      app.use(ViewUIPlus);
+      app.mount("#courseinfo_management");
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,96 @@
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>出错了</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="resources/AdminLTE-master/plugins/fontawesome-free/css/all.min.css">
+  <!-- icheck bootstrap -->
+  <link rel="stylesheet" href="resources/AdminLTE-master/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <link rel="stylesheet" href="resources/AdminLTE-master/dist/css/adminlte.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/view-ui-plus/dist/styles/viewuiplus.css">
+  <script type="text/javascript" src="https://unpkg.com/vue@next"></script>
+  <script type="text/javascript" src="https://unpkg.com/view-ui-plus"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+</head>
+
+<body class="hold-transition login-page">
+<div id="login">
+  <div class="ivu-exception">
+    <div class="ivu-exception-img">
+      <div class="ivu-exception-img-element" style="background-image: url(&quot;https://file.iviewui.com/iview-pro/icon-404.svg&quot;);">
+
+      </div>
+    </div>
+    <div class="ivu-exception-content">
+      <h1>404</h1>
+      <div class="ivu-exception-content-desc">抱歉，你访问的页面不存在</div>
+      <div class="ivu-exception-content-actions">
+        <a class="ivu-btn ivu-btn-primary ivu-btn-large" href="/" target="_self">
+          <span></span>返回首页</a></div></div></div>
+</div>
+</body>
+<!-- /.login-box -->
+
+<!-- jQuery -->
+<script src="resources/AdminLTE-master/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="resources/AdminLTE-master/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="resources/AdminLTE-master/dist/js/adminlte.min.js"></script>
+
+<script>
+  const app = Vue.createApp({
+    data(){
+      return {
+        user:{
+          account:-1,
+          password:"",
+          type:-1,
+          autoLogin:false
+        }
+      }
+    },
+    methods:{
+      handleSubmit (valid, { username, password }) {
+        if (valid) {
+          this.user.account = username*1;
+          this.user.password = password;
+          var that = this;
+          axios.post('/login',that.user)
+                  .then(function (response) {
+                    if(response.data.type===1){
+                      window.location.href = "/jumpToPersonalInfo"
+                    }else if(response.data.type===0){
+                      window.location.href = "/jumpToManagerInfo"
+                    }else{
+                      that.$Message.error("用户名或密码错误！");
+                    }
+                  }).catch(function (error) {
+                        console.log(error);
+                  })
+        }
+      },
+    },
+    created(){
+    },
+    mounted(){
+      this.$Message.config({
+        top:60,
+        background: true,
+        duration:2,
+      })
+
+    }
+  });
+  app.use(ViewUIPlus);
+  app.mount("#login");
+</script>
+</html>
